@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% include 'headers.html' %}
+
+
+{% block title%} Question 11 {% endblock %}
+
+{% block body %} 
+
+<hr>
+
+<div class="container">
+<table class="table">
+    <tbody>
+        <table class="table table-secondary table-striped text-center table-hover">
+            <tr>
+                <th >Time(s)</th>
+               
+            </tr>
+        {% for item in list1 %}
+        <tr>
+            <td>{{item}}</td>
+          
+        </tr>
+        {% endfor %} 
+        </table>  
+    </tbody>
+   </table>
+</div>
+<hr>
+
+<div class="container">
+<table class="table">
+    <tbody>
+        <table class="table table-secondary table-striped text-center table-hover">
+            <tr>
+                <th >Time(s)</th>
+               
+            </tr>
+        {% for item in list2 %}
+        <tr>
+            <td>{{item}}</td>
+          
+        </tr>
+        {% endfor %} 
+        </table>  
+    </tbody>
+   </table>
+</div>
+{% endblock %}

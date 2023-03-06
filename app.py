@@ -6,6 +6,7 @@ from flask import Flask, render_template, request, flash
 from timeit import default_timer as timer 
 import redis 
 import pickle
+import random
 
 app = Flask(__name__)
 app.config["image_folder"] = "./static/"
@@ -122,6 +123,71 @@ def question10aSai():
     time = timer() - starttime
     return render_template('question10aSai.html', list1 = list1, time  = time)  
 
+@app.route('/question10bSai', methods=['GET', 'POST'])
+def question10bSai():
+    n = request.form.get("N")
+    net = request.form.get("Net")  
+    off = str(random.randint(1,9))
+    starttime=timer()
+    query_str = "select top "+n+" * from (select * from dbo.all_month where net = '"+net+"' ORDER BY id OFFSET "+off+" ROWS) a"
+    print(query_str)
+    crsr.execute(query_str)    
+    list1 = crsr.fetchall()
+    time = timer() - starttime
+    return render_template('question10bSai.html', list1 = list1, time  = time)  
+
+@app.route('/question11Sai', methods=['GET', 'POST'])
+def question11Sai():
+    num1 = request.form.get("RangeStart")
+    num2 = request.form.get("RangeEnd")  
+    n = request.form.get("N")
+    net = request.form.get("Net")  
+    off = str(random.randint(1,9))
+    t = int(request.form.get("T")) 
+    timeList1 = []
+    timeList2 = []
+    sum = 0
+    print( r.exists("chetan"+num1+num2))
+    for i in range(0,t):
+        if( r.exists("chetan"+num1+num2) != 1):
+            print("Caching from Database")
+            starttime = timer()
+            query_str = "select id,place from dbo.all_month where nst>='{}' and nst<'{}'".format(num1,num2)
+            crsr.execute(query_str)    
+            data = crsr.fetchall()
+            r.set("chetan"+num1+num2, pickle.dumps(data))
+            time = timer() - starttime
+            timeList1.append(time)
+            sum = sum + time
+        else:
+            print("Caching from redis")
+            starttime = timer()
+            data = pickle.loads(r.get("chetan"+num1+num2))
+            time = timer() - starttime
+            timeList1.append(time)
+            sum = sum + time
+
+    # off = str(random.randint(0,9))
+    for i in range(0,t):
+        if( r.exists("chetan"+n+net) != 1):
+            print("Caching from Database")
+            starttime = timer()
+            query_str = "select top "+n+" * from (select * from dbo.all_month where net = '"+net+"' ORDER BY id OFFSET "+off+" ROWS) a"
+            crsr.execute(query_str)    
+            data = crsr.fetchall()
+            r.set("chetan"+n+net,pickle.dumps(data))
+            time = timer() - starttime
+            timeList2.append(time)
+            sum = sum + time
+        else:
+            print("Caching from redis")
+            starttime = timer()
+            data = pickle.loads(r.get("chetan"+n+net))
+            time = timer() - starttime
+            timeList2.append(time)
+            sum = sum + time
+
+    return render_template('Question11Sai.html', list1 = timeList1, list2= timeList2, total = sum)  
    
 if __name__ == "__main__":
     app.run(debug=True)

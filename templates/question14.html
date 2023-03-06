@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% include 'headers.html' %}
+
+
+{% block title%} Question 11c {% endblock %}
+
+{% block body %} 
+
+<hr>
+
+<div class="container">
+<table class="table">
+    <tbody>
+        <table class="table table-secondary table-striped text-center table-hover">
+            <tr>
+                <th>City</th>
+                <th>State</th>
+                <th>Population</th>
+        
+             </tr>
+        {% for item in list1 %}
+        <tr>
+            <td>{{item[0]}}</td>
+            <td>{{item[1]}}</td>
+            <td>{{item[2]}}</td>
+            
+        
+        </tr>
+        {% endfor %} 
+        </table>  
+    </tbody>
+   </table>
+</div>
+
+<div class="container">
+    <table class="table">
+        <tbody>
+            <table class="table table-secondary table-striped text-center table-hover">
+                <tr>
+                    <th>City</th>
+                    <th>State</th>
+                    <th>Population</th>
+                    
+            
+                 </tr>
+            {% for item in list2 %}
+            <tr>
+                <td>{{item[0]}}</td>
+                <td>{{item[1]}}</td>
+                <td>{{item[2]}}</td>
+                
+            
+            </tr>
+            {% endfor %} 
+            </table>  
+        </tbody>
+       </table>
+    </div>
+{% endblock %}

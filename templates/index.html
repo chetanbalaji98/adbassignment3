@@ -1,0 +1,98 @@
+{% extends 'base.html' %}
+{% include 'headers.html' %}
+
+{% block title%} Home {% endblock %}
+
+{% block body %}
+
+<hr>
+<div class="container">
+    <div class="row text-center">
+        <div>
+            Question 14 : Nth largest and Nth smallest
+        </div>
+        <br>
+        <br>
+        <form action="/question14", method="POST" , method = "GET">
+
+            <label id="labels">Enter N</label>
+            <input type="text" id="q11id1" name="n" style="margin-left: 2%;width: 30%;" placeholder="Enter N" required/>
+            <br><br>
+            
+            <label id="labels">Start range of population</label>
+            <input type="text" id="q11id1" name="startpop" style="margin-left: 2%;width: 30%;" placeholder="Min Population" required/>
+            <br><br>
+
+            <label id="labels">Ending range of population</label>
+            <input type="text" id="q11id2" name="endpop" style="margin-left: 2%;width: 30%;" placeholder="Max Population" required/>
+            <br><br>
+            <input class="btn btn-secondary" type="submit" id="button" value="Nth largest and Nth smallest"/>
+        </form>
+    </div>
+</div> 
+<hr>
+
+<hr>
+<div class="container">
+    <div class="row text-center">
+        <div>
+            Question 1 : Measuring time
+        </div>
+        <br>
+        <br>
+        <form action="/question1", method="POST" , method = "GET">
+
+           
+            <input class="btn btn-secondary" type="submit" id="button" value="Measuring time"/>
+            <br>
+            <br>
+            <input class="btn btn-secondary" id="button" value={{totaltime}}/>
+
+        </form>
+    </div>
+</div> 
+<hr>
+<hr>
+<div class="container">
+    <div class="row text-center">
+        <div>
+            Question 2 : Measuring time with redis and Database
+        </div>
+        <br>
+        <br>
+        <form action="/question2", method="POST" , method = "GET">
+
+           
+            <input class="btn btn-secondary" type="submit" id="button" value="Measuring time"/>
+            <br>
+            <br>
+            <input class="btn btn-secondary" id="button" value={{randomquerytimeredis}}/>
+
+        </form>
+    </div>
+</div> 
+<hr>
+<hr>
+<div class="container">
+    <div class="row text-center">
+        <div>
+            Question 3 : Measuring time with redis 
+        </div>
+        <br>
+        <br>
+        <form action="/question3", method="POST" , method = "GET">
+
+           
+            <input class="btn btn-secondary" type="submit" id="button" value="Measuring time"/>
+            <br>
+            <br>
+            <input class="btn btn-secondary" id="button" value={{randomquerytimeredis}}/>
+
+        </form>
+    </div>
+</div> 
+<hr>
+
+
+
+{% endblock %}

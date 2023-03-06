@@ -111,5 +111,17 @@ def question3():
         print(list2)
     return render_template('question3.html', randomquerytimeredis = time_elapsed,list2=list2)
 
+@app.route('/question10aSai', methods=['GET', 'POST'])
+def question10aSai():
+    num1 = request.form.get("RangeStart")
+    num2 = request.form.get("RangeEnd")  
+    starttime=timer()
+    query_str = "select id,place from dbo.all_month where nst>='{}' and nst<'{}'".format(num1,num2)
+    crsr.execute(query_str)    
+    list1 = crsr.fetchall()
+    time = timer() - starttime
+    return render_template('question10aSai.html', list1 = list1, time  = time)  
+
+   
 if __name__ == "__main__":
     app.run(debug=True)

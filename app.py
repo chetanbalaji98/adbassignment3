@@ -52,6 +52,45 @@ def question10CBD():
     return render_template('question10CBD.html',count=count, list1=result,time_elapsed=time_elapsed)
 
 
+@app.route('/question11CBD', methods=['GET', 'POST'])
+def question11CBD():
+    list1=[]
+    state=str(request.form.get("state"))
+    startrank = str(request.form.get("startrank"))
+    endrank = str(request.form.get("endrank"))
+    t=int(request.form.get("T"))
+    starttime=timer()
+    for i in range(0,t):
+        starttime_a = timer()
+        q1query = "select City,State,Rank,Population from dbo.data3 where Rank >= {} and Rank < {} and State ='{}' ".format(startrank,endrank,state)
+        crsr.execute(q1query)
+        result = crsr.fetchall()
+        endtime=timer()
+        time_elapsed_foriteration="%.1f ms" % (1000 * (endtime - starttime_a))
+        list1.append(time_elapsed_foriteration)
+
+
+    totaltime= "%.1f ms" % (1000 * (timer() - starttime))
+
+    return render_template('question11CBD.html',totaltime=totaltime,list1=list1,list2=result,time_elapsed=totaltime)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

@@ -2,35 +2,29 @@
 {% include 'headers.html' %}
 
 
-{% block title%} Question 11CBD {% endblock %}
+{% block title%} Question 10CBD {% endblock %}
 
 {% block body %} 
 
-
 <hr>
-<div>{{randomquerytimeredis}}</div>
+<div>{{time_elapsed}}</div>
 <div class="container">
 <table class="table">
     <tbody>
         <table class="table table-secondary table-striped text-center table-hover">
             <tr>
-                
                 <th >City</th>
                 <th >State</th>
                 <th >Rank</th>
                 <th >Population</th>
-                <th >Time(s)</th>
             </tr>
-        {% for item in list2 %}
+        {% for item in list1 %}
         <tr>
             <td>{{item[0]}}</td>
             <td>{{item[1]}}</td>
             <td>{{item[2]}}</td>
             <td>{{item[3]}}</td>
-            <td>{{list2}}</td>
         </tr>
-            
-          
         {% endfor %} 
         </table>  
     </tbody>

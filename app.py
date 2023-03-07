@@ -75,6 +75,49 @@ def question11CBD():
     return render_template('question11CBD.html',totaltime=totaltime,list1=list1,list2=result,time_elapsed=totaltime)
 
 
+@app.route('/question12CBD', methods=['GET', 'POST'])
+def question12CBD():
+    state=str(request.form.get("state"))
+    startrank = str(request.form.get("startrank"))
+    endrank = str(request.form.get("endrank"))
+    t=int(request.form.get("T"))
+    if request.method == 'POST':
+        sqlquery = "select City,State,Rank,Population from dbo.data3 where Rank >= {} and Rank < {} and State ='{}' ".format(startrank,endrank,state)
+        hashvalue = "ChetanBalajiQuiz3"
+        redis_key = "{}".format(hashvalue)
+        list1=[]
+        starttime=timer()
+        for data in range(0,t):
+            starttime_a = timer()
+            if not (r.get(redis_key)):
+                print("Caching from Database")
+                crsr.execute(sqlquery)
+                fetchlist = list(crsr.fetchall())
+                r.set(redis_key, pickle.dumps(list(fetchlist)))
+                
+            else:
+                print("Caching from redis")   
+            endtime=timer()
+
+            time_elapsed_foriteration="%.1f ms" % (1000 * (endtime - starttime_a))
+            print(time_elapsed_foriteration)
+            list1.append(time_elapsed_foriteration)
+
+        time_elapsed = "%.1f ms" % (1000 * (timer() - starttime))
+        list1.append(time_elapsed)
+        print(list1)
+    return render_template('question12CBD.html', randomquerytimeredis = time_elapsed,list1=list1)
+
+
+
+
+
+
+
+
+
+
+
 
 
 

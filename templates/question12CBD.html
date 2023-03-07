@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% include 'headers.html' %}
+
+
+{% block title%} Question 11CBD {% endblock %}
+
+{% block body %} 
+
+
+<hr>
+<div>{{time_elapsed}}</div>
+<div class="container">
+<table class="table">
+    <tbody>
+        <table class="table table-secondary table-striped text-center table-hover">
+            <tr>
+                <th >Time(s)</th>
+                
+            </tr>
+        {% for item in list1 %}
+        <tr>
+            <td>{{item}}</td>
+          
+        {% endfor %} 
+        </table>  
+    </tbody>
+   </table>
+</div>
+{% endblock %}

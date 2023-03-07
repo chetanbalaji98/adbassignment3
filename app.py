@@ -33,6 +33,42 @@ print(r.get("name"))
 def index():
     return render_template('index.html')
 
+
+@app.route('/question10CBD', methods=['GET', 'POST'])
+def question10CBD():
+    starttime=timer()
+    state=str(request.form.get("state"))
+    startrank = str(request.form.get("startrank"))
+    endrank = str(request.form.get("endrank"))
+    q14aquery = "select City,State,Rank,Population from dbo.data3 where Rank >= {} and Rank < {} and State ='{}' ".format(startrank,endrank,state)
+    crsr.execute(q14aquery)
+    result = crsr.fetchall()
+    count = len(result)
+    endtime=timer()
+    time_elapsed="%.1f ms" % (1000 * (endtime - starttime))
+
+
+   
+    return render_template('question10CBD.html',count=count, list1=result,time_elapsed=time_elapsed)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 @app.route('/question14', methods=['GET', 'POST'])
 def question14():
     n=str(request.form.get("n"))
@@ -52,7 +88,7 @@ def question14():
 def question1():
 
     starttime=timer()
-    for i in range(3):
+    for i in range(100):
         q1query = "select * from dbo.all_month"
         crsr.execute(q1query)
         result = crsr.fetchall()

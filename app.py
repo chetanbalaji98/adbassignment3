@@ -147,47 +147,84 @@ def question11Sai():
     timeList1 = []
     timeList2 = []
     sum = 0
-    print( r.exists("chetan"+num1+num2))
+    hashvalue1 = "Chetan11"
+    redis_key1 = "{}".format(hashvalue1)
+   
     for i in range(0,t):
-        if( r.exists("chetan"+num1+num2) != 1):
+        if not (r.get(redis_key1)):
             print("Caching from Database")
             starttime = timer()
-            query_str = "select id,place from dbo.all_month where nst>='{}' and nst<'{}'".format(num1,num2)
-            crsr.execute(query_str)    
+            query_str1 = "select id,place from dbo.all_month where nst>='{}' and nst<'{}'".format(num1,num2)
+            crsr.execute(query_str1)    
             data = crsr.fetchall()
-            r.set("chetan"+num1+num2, pickle.dumps(data))
+            r.set(redis_key1, pickle.dumps(list(data)))
             time = timer() - starttime
             timeList1.append(time)
             sum = sum + time
         else:
             print("Caching from redis")
             starttime = timer()
-            data = pickle.loads(r.get("chetan"+num1+num2))
+            data = pickle.loads(r.get(redis_key1))
             time = timer() - starttime
             timeList1.append(time)
             sum = sum + time
 
-    # off = str(random.randint(0,9))
+    hashvalue2 = "Chetan32"
+    redis_key2 = "{}".format(hashvalue2)
+    
     for i in range(0,t):
-        if( r.exists("chetan"+n+net) != 1):
+        if not (r.get(redis_key2)):
             print("Caching from Database")
             starttime = timer()
-            query_str = "select top "+n+" * from (select * from dbo.all_month where net = '"+net+"' ORDER BY id OFFSET "+off+" ROWS) a"
-            crsr.execute(query_str)    
+            query_str2 = "select top "+n+" * from (select * from dbo.all_month where net = '"+net+"' ORDER BY id OFFSET "+off+" ROWS) a"
+            crsr.execute(query_str2)    
             data = crsr.fetchall()
-            r.set("chetan"+n+net,pickle.dumps(data))
+            r.set(redis_key2, pickle.dumps(list(data)))
             time = timer() - starttime
             timeList2.append(time)
             sum = sum + time
         else:
             print("Caching from redis")
             starttime = timer()
-            data = pickle.loads(r.get("chetan"+n+net))
+            data = pickle.loads(r.get(redis_key2))
             time = timer() - starttime
             timeList2.append(time)
             sum = sum + time
 
     return render_template('Question11Sai.html', list1 = timeList1, list2= timeList2, total = sum)  
+
+@app.route('/question12Sai', methods=['GET', 'POST'])
+def question12Sai():
+    timeLista = []
+    timeListb = []
+    sum = 0
+    t = int(request.form.get("T"))
+    hashvalue1 = "Chetan11"
+    redis_key1 = "{}".format(hashvalue1)
+    
+    for i in range(0,t):
+        if r.get(redis_key1):
+            print("Caching from redis")
+            starttime = timer()
+            data = pickle.loads(r.get(redis_key1))
+            time = timer() - starttime
+            timeLista.append(time)
+            sum = sum + time
+        
+    hashvalue2 = "Chetan32"
+    redis_key2 = "{}".format(hashvalue2)
+    
+    for i in range(0,t):
+        if r.get(redis_key2):
+            print("Caching from redis")
+            starttime = timer()
+            data = pickle.loads(r.get(redis_key2))
+            time = timer() - starttime
+            timeListb.append(time)
+            sum = sum + time
+
+    return render_template('Question12Sai.html', list1 = timeLista, list2= timeListb, total = sum)
+
    
 if __name__ == "__main__":
     app.run(debug=True)

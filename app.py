@@ -54,29 +54,6 @@ def question10CBD():
 
 @app.route('/question11CBD', methods=['GET', 'POST'])
 def question11CBD():
-    list1=[]
-    state=str(request.form.get("state"))
-    startrank = str(request.form.get("startrank"))
-    endrank = str(request.form.get("endrank"))
-    t=int(request.form.get("T"))
-    starttime=timer()
-    for i in range(0,t):
-        starttime_a = timer()
-        q1query = "select City,State,Rank,Population from dbo.data3 where Rank >= {} and Rank < {} and State ='{}' ".format(startrank,endrank,state)
-        crsr.execute(q1query)
-        result = crsr.fetchall()
-        endtime=timer()
-        time_elapsed_foriteration="%.1f ms" % (1000 * (endtime - starttime_a))
-        list1.append(time_elapsed_foriteration)
-
-
-    totaltime= "%.1f ms" % (1000 * (timer() - starttime))
-
-    return render_template('question11CBD.html',totaltime=totaltime,list1=list1,list2=result,time_elapsed=totaltime)
-
-
-@app.route('/question12CBD', methods=['GET', 'POST'])
-def question12CBD():
     state=str(request.form.get("state"))
     startrank = str(request.form.get("startrank"))
     endrank = str(request.form.get("endrank"))
@@ -106,7 +83,31 @@ def question12CBD():
         time_elapsed = "%.1f ms" % (1000 * (timer() - starttime))
         list1.append(time_elapsed)
         print(list1)
-    return render_template('question12CBD.html', randomquerytimeredis = time_elapsed,list1=list1)
+    return render_template('question11CBD.html', randomquerytimeredis = time_elapsed,list1=list1)
+
+
+@app.route('/question12CBD', methods=['GET', 'POST'])
+def question12CBD():
+    if request.method == 'POST':
+        t=int(request.form.get("T"))
+        hashvalue = "ChetanBalajiQuiz3"
+        redis_key = "{}".format(hashvalue)
+        list2=[]
+        starttime=timer()
+        for data in range(0,t):
+            starttime_a = timer()
+            if r.get(redis_key):
+                print("Caching from redis")   
+                endtime=timer()
+                time_elapsed_foriteration="%.1f ms" % (1000 * (endtime - starttime_a))
+                print(time_elapsed_foriteration)
+                list2.append(time_elapsed_foriteration)
+                data=pickle.loads(r.get(redis_key))
+
+        time_elapsed = "%.1f ms" % (1000 * (timer() - starttime))
+        list2.append(time_elapsed)
+        print(list2)
+    return render_template('question12CBD.html', randomquerytimeredis = time_elapsed,list2=list2)
 
 
 
